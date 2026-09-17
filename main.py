@@ -1,5 +1,7 @@
 import requests
 import os
+import pandas as pd
+from art import ASCII_ART
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -22,6 +24,8 @@ def get_neo_data(start_date, end_date, api_key):
     return response.json()
 
 def search_asteroids():
+    asteroid_rows = []  #we are going to put the asteroid data in list of rows here
+
     start_date = input("Enter the start date (YYYY-MM-DD): ")
     end_date = input("Enter the end date (YYYY-MM-DD): ")
 
@@ -46,6 +50,93 @@ def search_asteroids():
     except requests.RequestException as e:
         print(f"Error fetching NEO data: {e}")
         exit()
+
+ 
+    for date in data["near_earth_objects"]:
+         for asteroid in data["near_earth_objects"][date]:
+
+            asteroid_row = {
+                "Name" : asteroid['name'],
+                "Diameter" : float(asteroid['estimated_diameter']['meters']['estimated_diameter_max']),
+                "Hazardous" : asteroid['is_potentially_hazardous_asteroid'],
+                "Miss Distance" : float(asteroid['close_approach_data'][0]['miss_distance']['kilometers']),
+                "Date" : asteroid['close_approach_data'][0]['close_approach_date']
+            }
+            asteroid_rows.append(asteroid_row)
+
+    df = pd.DataFrame(asteroid_rows)
+
+    #Analysis
+    hazardous_df = df[df["Hazardous"] == True]
+    hazardous_by_date = hazardous_df.groupby("Date").size()
+
+    largest_index = df["Diameter"].idxmax()
+    largest_diameter = df["Diameter"].max()
+
+    smallest_index = df["Diameter"].idxmin()
+    smallest_diameter = df["Diameter"].min()
+
+    closest_index = df["Miss Distance"].idxmin()
+    closest_distance = df["Miss Distance"].min()
+
+    total_asteroids = df.shape[0]
+
+    hazardous_count = hazardous_df.shape[0]
+    hazardous_percentage = (hazardous_count / total_asteroids) * 100
+
+    sorted_df = df.sort_values("Diameter", ascending=False)
+    
+    top_5 = sorted_df.head()
+
+    average_diameter = df["Diameter"].mean()
+
+    
+    #DISPLAY
+    print()
+    print("================================")
+    print("        ASTEROID SUMMARY        ")
+    print("================================")
+
+    print(f"Total Asteroids: {total_asteroids}")
+    print(f"Potentially Hazardous: {hazardous_count}")
+    print(f"Hazardous Percentage: {hazardous_percentage:,.2f}%")
+
+    print()
+
+    print(f"Largest Asteroid: {df.loc[largest_index, 'Name']}")
+    print(f"Diameter: {largest_diameter:,.2f} meters")
+
+    print()
+
+    print(f"Smallest Asteroid: {df.loc[smallest_index, 'Name' ]}")
+    print(f"Diameter: {smallest_diameter:,.2f} meters")
+
+    print()
+
+    print(f"Closest Asteroid: {df.loc[closest_index, 'Name']}")
+    print(f"Miss Distance: {closest_distance:,.2f} km")
+    print(f"Approach Date: {df.loc[closest_index, 'Date']}")
+
+    print()
+
+    print(f"Average Diameter: {average_diameter:,.2f} meters")
+
+    print("================================")
+
+    print("================================")
+    print("    TOP 5 LARGEST ASTEROID      ")
+    print("================================")
+
+    for number, (index, asteroid) in enumerate(top_5.iterrows(), start=1):
+        print(f"{number}. {asteroid['Name']} - {asteroid['Diameter']:.2f} meters")
+
+    print("================================")
+    print("       HAZARDOUS BY DATE        ")
+    print("================================")
+
+    for date, count in hazardous_by_date.items():
+        print(f"{date}: {count}")
+
 
     #Statistics
     total_asteroids = 0
@@ -128,15 +219,23 @@ def search_asteroids():
 while True:
 
     print()
-    print("================================")
-    print("NASA Near-Earth Object (NEO) Data")
-    print("================================")
+    print(ASCII_ART)
+    print()
+
+    print("======================================")
+    print("           NASA NEO TRACKER           ")
+    print(" Near-Earth Object (NEO) Data Analzyer")
+    print("======================================")
+
+    print()
     print("1. Search asteroids")
     print("2. Exit")
+    print()
+    
     print("================================")
 
 
-    choice = input("choose and option:")
+    choice = input("Choose and option:")
 
     if choice == "1":
         search_asteroids()
