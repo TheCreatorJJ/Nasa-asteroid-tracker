@@ -129,11 +129,6 @@ Nasa-asteroid-tracker/
 └── .env
 ```
 
-> [!IMPORTANT]
-> Never upload your `.env` file or NASA API key to GitHub. The `.env` file is excluded using `.gitignore`.
-
----
-
 ## 🚀 Usage
 
 Run the program with:
