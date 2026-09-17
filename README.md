@@ -1,61 +1,112 @@
-# NASA Near-Earth Object (NEO) Tracker
+# 🚀 NASA Near-Earth Object (NEO) Tracker
 
-A Python CLI tool that retrieves, analyzes, and displays Near-Earth Object (NEO) data using NASA's NeoWs API.
+> A Python CLI tool that retrieves, analyzes, and displays Near-Earth Object (NEO) data using NASA's NeoWs API.
 
-## Features
+```text
+..   .    .   ..   .   ..  ..   ..   .   ..   .   
+ .-+:.... ...  ..   .   ..   .    .   ..  ..   ..  ..   .    .   
+..  :*####++=:++: .... ..  .. ....   .   ..   .   ..   .   ..   ..
+      .=*####+++**+==+: .--:..:..                         
+        ..-**#**+=######*=+=++===+=::::. ...                   
+            :-:+**##**#*+:::-++=----====-==-----.                 
+   .   ..  ...  ==:==+==+=:.:++==:..:---:::---=:-.  ..   .   .   
+..   .    .   ..  ...:-=--==:.:+***+-.......:-*%#+=*+-+.   ..   ..
+   .   ..  ...  ..   .  ..-:=-..:--+=-:.  .=##*#%%#=+-::.    .   
+..   .    .   ..   .   ..  ..::=---.:-+++:.*##+# +%%#+%**--:.   ..
+   .   ..  ...  ..   .   ..  .-=++++-=-=\**--**#%%%##%%%+=#%*=#==.
+..   .   ..   ..   .   ..  ... :---+===++\**#%%%%%%%%%#***#*#%-=-...
+        .   .                      .:-==-=-+##%%%%%%%%%%#*+=**=-  
+                                  ..:::-:-+\**#%%%%%%%%%%%%=+**+.
+                                    ..:--:-#%%%%%%%%%#%%%#**
+   .   ..  ...  ..   .   ..   .   ..   ..  ...:+*#%%%%###%%%%%%%
+..   .   ..   ..   .   ..  ..   ..   .   ..   .. =##*##%#%%#%=....
+   .   .   ..  ..   .   ..   .    .   ..  ..   ..  ...  .    .
+```
 
-* Search for asteroids using a custom date range
-* Display asteroid names and estimated diameters
-* Identify potentially hazardous asteroids
-* Find the largest asteroid in the selected date range
-* Find the smallest asteroid in the selected date range
-* Find the closest asteroid based on miss distance
-* Display the closest approach date
-* Calculate the average asteroid diameter
-* Calculate the percentage of potentially hazardous asteroids
-* Display the top 5 largest asteroids
-* Group potentially hazardous asteroids by date
-* Validate date formats and date ranges
-* Handle API request errors
-* Display results through a simple command-line interface
-* ASCII art splash screen and improved CLI layout
+---
 
-## Technologies Used
+## 🌌 About
 
-* Python
-* NASA NeoWs API
-* Requests
-* Pandas
-* python-dotenv
+**NASA NEO Tracker** is a command-line Python project that uses NASA's **Near Earth Object Web Service (NeoWs)** API to retrieve asteroid data for a selected date range.
 
-Pandas is used to organize the API data into a DataFrame and perform analysis such as filtering, sorting, grouping, and calculating statistics.
+The project started as a simple API-based asteroid tracker and evolved into a data-analysis project using **Pandas**.
 
-## Requirements
+### Current Version
+
+**Version 2 — Pandas Analysis & CLI Improvements**
+
+---
+
+## ✨ Features
+
+* 🔭 Search for Near-Earth Objects using a custom date range
+* 🪨 Display asteroid names and estimated diameters
+* ⚠️ Identify potentially hazardous asteroids
+* 📏 Find the largest asteroid in the selected date range
+* 📐 Find the smallest asteroid in the selected date range
+* 🌍 Find the closest asteroid based on miss distance
+* 📅 Display the closest approach date
+* 📊 Calculate average asteroid diameter
+* ⚠️ Calculate the percentage of potentially hazardous asteroids
+* 🏆 Display the top 5 largest asteroids
+* 📆 Group potentially hazardous asteroids by date
+* 🔢 Sort asteroid data by estimated diameter
+* ✅ Validate date formats and date ranges
+* 🛡️ Handle API request errors
+* 💻 Simple command-line interface
+* 🌌 ASCII art splash screen
+* ✨ Improved CLI formatting and presentation
+
+---
+
+## 🛠️ Technologies Used
+
+* **Python**
+* **NASA NeoWs API**
+* **Requests**
+* **Pandas**
+* **python-dotenv**
+* **Git & GitHub**
+
+Pandas is used to organize the API response into a DataFrame and perform operations such as filtering, sorting, grouping, and calculating statistics.
+
+---
+
+## 📋 Requirements
+
+Before running the project, make sure you have:
 
 * Python 3.x
 * A NASA API key
+* Internet connection
 
-## Installation
+The required Python packages are listed in `requirements.txt`.
 
-Clone the repository:
+---
+
+## 📦 Installation
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/TheCreatorJJ/Nasa-asteroid-tracker.git
 ```
 
-Go into the project folder:
+### 2. Enter the project directory
 
 ```bash
 cd Nasa-asteroid-tracker
 ```
 
-Install the required Python packages:
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## API Key Setup
+---
+
+## 🔑 API Key Setup
 
 This project uses a NASA API key to access the NeoWs API.
 
@@ -65,54 +116,88 @@ Create a file named `.env` in the project folder:
 NASA_API_KEY=your_nasa_api_key_here
 ```
 
-**Do not upload your `.env` file to GitHub.**
+Your project structure should look similar to:
 
-The `.env` file is excluded using `.gitignore`.
+```text
+Nasa-asteroid-tracker/
+│
+├── main.py
+├── art.py
+├── README.md
+├── requirements.txt
+├── .gitignore
+└── .env
+```
 
-## Usage
+> [!IMPORTANT]
+> Never upload your `.env` file or NASA API key to GitHub. The `.env` file is excluded using `.gitignore`.
 
-Run the program:
+---
+
+## 🚀 Usage
+
+Run the program with:
 
 ```bash
 python main.py
 ```
 
-The program will display a menu where you can search for asteroid data or exit the program.
+The program will display the NASA NEO Tracker menu.
 
-Enter dates using:
+Enter a start date and end date using:
 
 ```text
 YYYY-MM-DD
 ```
 
-For example:
+Example:
 
 ```text
 Enter the start date (YYYY-MM-DD): 2026-01-01
-
 Enter the end date (YYYY-MM-DD): 2026-01-07
 ```
 
-The program then retrieves and analyzes the Near-Earth Objects found during the selected date range.
+The program retrieves the Near-Earth Object data from NASA and then analyzes the results using Pandas.
 
-## Analysis
+---
 
-The program uses Pandas to organize the retrieved asteroid data and perform several analysis operations.
+## 📊 Data Analysis
 
-Examples include:
+Version 2 introduced Pandas to make the project more than just an API data viewer.
 
-* Finding the largest and smallest asteroids
-* Finding the closest asteroid approach
-* Calculating the average diameter
-* Counting potentially hazardous asteroids
-* Calculating the percentage of potentially hazardous asteroids
-* Sorting asteroids by estimated diameter
-* Displaying the top 5 largest asteroids
-* Grouping potentially hazardous asteroids by approach date
+The program currently performs analysis such as:
 
-Pandas provides functionality for sorting DataFrames and grouping data for calculations and counts.
+### Largest Asteroid
 
-## Example Output
+Finds the asteroid with the largest estimated maximum diameter.
+
+### Smallest Asteroid
+
+Finds the asteroid with the smallest estimated maximum diameter.
+
+### Closest Approach
+
+Finds the asteroid with the smallest recorded miss distance.
+
+### Average Diameter
+
+Calculates the average estimated maximum diameter of the retrieved asteroids.
+
+### Hazardous Asteroids
+
+Counts the number of potentially hazardous asteroids and calculates their percentage of the total results.
+
+### Top 5 Largest
+
+Sorts the asteroid DataFrame by diameter and displays the five largest asteroids.
+
+### Hazardous Asteroids by Date
+
+Groups potentially hazardous asteroids by their close-approach date.
+
+---
+
+## 🖥️ Example Output
 
 ```text
 ================================
@@ -122,7 +207,7 @@ Total Asteroids: 36
 Potentially Hazardous: 7
 Hazardous Percentage: 19.44%
 Largest Asteroid: 418265 (2008 EA32)
-Diameter: 2992.54 meters
+Diameter: 2,992.54 meters
 Smallest Asteroid: (2018 TV5)
 Diameter: 7.48 meters
 Closest Asteroid: (2014 AF16)
@@ -133,10 +218,10 @@ Average Diameter: 285.73 meters
 ================================
       TOP 5 LARGEST ASTEROIDS
 ================================
-1. 418265 (2008 EA32) - 2992.54 meters
-2. 26663 (2000 XK47) - 1412.67 meters
-3. 620103 (2018 LC3) - 1042.41 meters
-4. (2018 LC3) - 1032.86 meters
+1. 418265 (2008 EA32) - 2,992.54 meters
+2. 26663 (2000 XK47) - 1,412.67 meters
+3. 620103 (2018 LC3) - 1,042.41 meters
+4. (2018 LC3) - 1,032.86 meters
 5. 367390 (2008 MB5) - 924.78 meters
 
 ================================
@@ -149,77 +234,137 @@ Average Diameter: 285.73 meters
 2026-01-07: 1
 ```
 
-The values above are example results and may change depending on the selected date range and NASA's current data.
+> **Note:** The values above are example results. Results will vary depending on the selected date range and the data returned by NASA's API.
 
-## What I Learned
+---
 
-This project was built as part of my Python learning journey. It helped me practice:
+## 🧠 What I Learned
+
+This project is part of my Python learning journey.
+
+While building it, I practiced:
 
 * Working with APIs
 * Making HTTP requests with `requests`
 * Using environment variables
 * Working with JSON data
 * Working with dictionaries and lists
-* Using loops and conditional statements
-* Handling errors with `try` and `except`
-* Working with dates using `datetime`
+* Using loops
+* Using conditional statements
 * Creating functions
+* Working with dates using `datetime`
+* Handling errors with `try` and `except`
 * Building a CLI application
-* Creating and working with Pandas DataFrames
-* Filtering DataFrame data
-* Sorting data with Pandas
+* Creating Pandas DataFrames
+* Filtering DataFrames
+* Sorting DataFrame data
 * Finding maximum and minimum values
 * Calculating averages
 * Grouping and counting data
-* Using Git and GitHub
+* Iterating through DataFrame rows
+* Formatting numerical output
+* Using Git
+* Using GitHub
+* Managing project dependencies
 
-## Data Source
+---
 
-The asteroid data comes from NASA's Near Earth Object Web Service (NeoWs) API.
+## 🗂️ Project Structure
 
-NASA API:
+```text
+Nasa-asteroid-tracker/
+│
+├── main.py              # Main application
+├── art.py               # ASCII art
+├── README.md            # Project documentation
+├── requirements.txt     # Python dependencies
+├── .gitignore           # Files excluded from Git
+└── .env                 # Private NASA API key
+```
 
-https://api.nasa.gov/
+> `.env` is intentionally excluded from GitHub.
 
-## Project Versions
+---
 
-### Version 1
+## 📈 Project Versions
+
+### Version 1 — NASA API Tracker
+
+The first version focused on learning how to work with an external API.
 
 * NASA NeoWs API integration
-* Custom date-range asteroid search
+* Custom date-range search
 * Basic asteroid information
 * Hazardous asteroid identification
 * Largest asteroid detection
-* Closest approach detection
+* Closest asteroid detection
+* Close-approach date
 * Date validation
 * API error handling
 * Basic CLI
 
-### Version 2
+### Version 2 — Data Analysis & CLI Improvements
 
-* Added Pandas for data analysis
+The second version expanded the project into a small data-analysis application.
+
+* Added Pandas
+* Added DataFrame-based analysis
 * Added smallest asteroid detection
 * Added average diameter calculation
 * Added hazardous asteroid percentage
 * Added top 5 largest asteroid ranking
 * Added hazardous asteroids grouped by date
-* Improved number formatting
-* Improved CLI presentation
+* Added sorting and filtering
+* Improved numerical formatting
+* Improved CLI layout
 * Added ASCII art
-* Updated project documentation
+* Improved project documentation
 
-## Future Improvements
+---
+
+## 🔮 Future Improvements
 
 Possible improvements for future versions:
 
-* Add data visualization with Matplotlib
-* Add CSV export
-* Add more detailed asteroid filtering
-* Add additional asteroid statistics
-* Improve the CLI interface
-* Create visual charts for asteroid data
-* Eventually build a graphical or web-based dashboard
+* 📊 Add Matplotlib visualizations
+* 📈 Create charts showing asteroid data
+* 📁 Add CSV export
+* 🔎 Add more detailed asteroid filtering
+* 📊 Add additional statistics
+* 🖥️ Further improve the CLI
+* 🌐 Eventually build a web-based dashboard
+* 🚀 Expand the project for NASA Space Apps Challenge
 
-## Author
+---
+
+## 🌎 Data Source
+
+Asteroid data is provided by NASA's **Near Earth Object Web Service (NeoWs)** API.
+
+NASA API:
+
+https://api.nasa.gov/
+
+---
+
+## 📚 Project Purpose
+
+This project was created as a hands-on Python learning project.
+
+The goal is to gradually develop the project while learning new programming and data-analysis concepts rather than building everything at once.
+
+**V1 → API**
+
+**V2 → Pandas & Analysis**
+
+**V3 → Visualization**
+
+**Future → More advanced data science**
+
+---
+
+## 👨‍💻 Author
 
 Created by **TheCreatorJJ** as a Python learning project.
+
+⭐ If you find the project interesting, feel free to explore the code and follow its development.

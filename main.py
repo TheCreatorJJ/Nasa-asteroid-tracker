@@ -128,7 +128,7 @@ def search_asteroids():
     print("================================")
 
     for number, (index, asteroid) in enumerate(top_5.iterrows(), start=1):
-        print(f"{number}. {asteroid['Name']} - {asteroid['Diameter']:.2f} meters")
+        print(f"{number}. {asteroid['Name']} - {asteroid['Diameter']:,.2f} meters")
 
     print("================================")
     print("       HAZARDOUS BY DATE        ")
