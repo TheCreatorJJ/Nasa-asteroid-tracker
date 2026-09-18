@@ -1,39 +1,37 @@
 # 🚀 NASA Near-Earth Object (NEO) Tracker
 
-> A Python CLI tool that retrieves, analyzes, and displays Near-Earth Object (NEO) data using NASA's NeoWs API.
+> *A Python CLI tool that retrieves, analyzes, and visualizes Near-Earth Object (NEO) data using NASA's NeoWs API.*
 
 ```text
-..   .    .   ..   .   ..  ..   ..   .   ..   .   
- .-+:.... ...  ..   .   ..   .    .   ..  ..   ..  ..   .    .   
-..  :*####++=:++: .... ..  .. ....   .   ..   .   ..   .   ..   ..
-      .=*####+++**+==+: .--:..:..                         
-        ..-**#**+=######*=+=++===+=::::. ...                   
-            :-:+**##**#*+:::-++=----====-==-----.                 
-   .   ..  ...  ==:==+==+=:.:++==:..:---:::---=:-.  ..   .   .   
+..   .    .   ..   .   ..  ..   ..   .   ..   .
+.-+:.... ...  ..   .   ..   .    .   ..  ..   ..  ..   .   .
+..  :*####++=:++: .... ..  .. ....   .   ..   .   ..   .   ..
+      .=*####+++**+==+: .--:..:..                        
+        ..-**#**+=######*=+=++===+=::::. ...              
+            :-:+**##**#*+:::-++=----====-==-----.         
+   .   ..  ...  ==:==+==+=:.:++==:..:---:::---=:-.  ..   .   .
 ..   .    .   ..  ...:-=--==:.:+***+-.......:-*%#+=*+-+.   ..   ..
-   .   ..  ...  ..   .  ..-:=-..:--+=-:.  .=##*#%%#=+-::.    .   
+   .   ..  ...  ..   .  ..-:=-..:--+=-:.  .=##*#%%#=+-::.    .
 ..   .    .   ..   .   ..  ..::=---.:-+++:.*##+# +%%#+%**--:.   ..
-   .   ..  ...  ..   .   ..  .-=++++-=-=\**--**#%%%##%%%+=#%*=#==.
+   .   ..  ...  ..   .  ..  .  .-=++++-=-=\**--**#%%%##%%%+=#%*=#==.
 ..   .   ..   ..   .   ..  ... :---+===++\**#%%%%%%%%%#***#*#%-=-...
-        .   .                      .:-==-=-+##%%%%%%%%%%#*+=**=-  
+        .   .                     .:-==-=-+##%%%%%%%%%%#*+=**=-
                                   ..:::-:-+\**#%%%%%%%%%%%%=+**+.
                                     ..:--:-#%%%%%%%%%#%%%#**
    .   ..  ...  ..   .   ..   .   ..   ..  ...:+*#%%%%###%%%%%%%
 ..   .   ..   ..   .   ..  ..   ..   .   ..   .. =##*##%#%%#%=....
-   .   .   ..  ..   .   ..   .    .   ..  ..   ..  ...  .    .
+   .   .   ..  ..   .   .   ..   .    .   ..  ..   ...  .    .
 ```
-
----
 
 ## 🌌 About
 
 **NASA NEO Tracker** is a command-line Python project that uses NASA's **Near Earth Object Web Service (NeoWs)** API to retrieve asteroid data for a selected date range.
 
-The project started as a simple API-based asteroid tracker and evolved into a data-analysis project using **Pandas**.
+The project started as a simple API-based asteroid tracker and evolved into a data-analysis and visualization project using **Pandas** and **Matplotlib**.
 
 ### Current Version
 
-**Version 2 — Pandas Analysis & CLI Improvements**
+**Version 3.0 — Data Visualization with Matplotlib**
 
 ---
 
@@ -56,6 +54,9 @@ The project started as a simple API-based asteroid tracker and evolved into a da
 * 💻 Simple command-line interface
 * 🌌 ASCII art splash screen
 * ✨ Improved CLI formatting and presentation
+* 📊 Visualize the top 5 largest asteroids using a bar chart
+* 📈 Generate graphical representations of asteroid data
+* 🖥️ Access visualizations through the CLI menu
 
 ---
 
@@ -65,10 +66,13 @@ The project started as a simple API-based asteroid tracker and evolved into a da
 * **NASA NeoWs API**
 * **Requests**
 * **Pandas**
+* **Matplotlib**
 * **python-dotenv**
 * **Git & GitHub**
 
 Pandas is used to organize the API response into a DataFrame and perform operations such as filtering, sorting, grouping, and calculating statistics.
+
+Matplotlib is used to visualize asteroid data through charts and graphs.
 
 ---
 
@@ -129,6 +133,10 @@ Nasa-asteroid-tracker/
 └── .env
 ```
 
+> ⚠️ `.env` contains your private API key and should never be uploaded to GitHub.
+
+---
+
 ## 🚀 Usage
 
 Run the program with:
@@ -137,12 +145,37 @@ Run the program with:
 python main.py
 ```
 
-The program will display the NASA NEO Tracker menu.
-
-Enter a start date and end date using:
+The program will display the NASA NEO Tracker menu:
 
 ```text
-YYYY-MM-DD
+======================================
+           NASA NEO TRACKER
+ Near-Earth Object (NEO) Data Analyzer
+======================================
+
+1. Search asteroids
+2. Show top 5 Largest
+3. Exit
+```
+
+### Search Asteroids
+
+Select option:
+
+```text
+1
+```
+
+Enter a start date:
+
+```text
+Enter the start date (YYYY-MM-DD):
+```
+
+Then enter an end date:
+
+```text
+Enter the end date (YYYY-MM-DD):
 ```
 
 Example:
@@ -152,7 +185,19 @@ Enter the start date (YYYY-MM-DD): 2026-01-01
 Enter the end date (YYYY-MM-DD): 2026-01-07
 ```
 
-The program retrieves the Near-Earth Object data from NASA and then analyzes the results using Pandas.
+The program retrieves Near-Earth Object data from NASA and analyzes the results using Pandas.
+
+### View Top 5 Largest
+
+After searching for asteroid data, select:
+
+```text
+2
+```
+
+The program displays a Matplotlib bar chart showing the top 5 largest asteroids from the searched date range.
+
+> ℹ️ Asteroid data must be loaded using option 1 before the visualization can be displayed.
 
 ---
 
@@ -192,27 +237,61 @@ Groups potentially hazardous asteroids by their close-approach date.
 
 ---
 
+## 📈 Data Visualization
+
+Version 3.0 introduced **Matplotlib** for visualizing the analyzed asteroid data.
+
+The current visualization allows the user to view the **top 5 largest asteroids** in a bar chart.
+
+The chart displays:
+
+* Asteroid names
+* Estimated maximum diameter
+* Formatted data labels
+* Rotated x-axis labels for improved readability
+
+### Visualization Menu
+
+The visualization feature is accessed through the CLI.
+
+Users must first search for asteroid data before viewing the available visualization.
+
+---
+
 ## 🖥️ Example Output
+
+Example results from a previous search:
 
 ```text
 ================================
         ASTEROID SUMMARY
 ================================
+
 Total Asteroids: 36
 Potentially Hazardous: 7
 Hazardous Percentage: 19.44%
+
 Largest Asteroid: 418265 (2008 EA32)
 Diameter: 2,992.54 meters
+
 Smallest Asteroid: (2018 TV5)
 Diameter: 7.48 meters
+
 Closest Asteroid: (2014 AF16)
 Miss Distance: 3,071,593.48 km
 Approach Date: 2026-01-04
-Average Diameter: 285.73 meters
 
+Average Diameter: 285.73 meters
+================================
+```
+
+### Top 5 Largest Asteroids
+
+```text
 ================================
       TOP 5 LARGEST ASTEROIDS
 ================================
+
 1. 418265 (2008 EA32) - 2,992.54 meters
 2. 26663 (2000 XK47) - 1,412.67 meters
 3. 620103 (2018 LC3) - 1,042.41 meters
@@ -220,8 +299,15 @@ Average Diameter: 285.73 meters
 5. 367390 (2008 MB5) - 924.78 meters
 
 ================================
+```
+
+### Hazardous Asteroids by Date
+
+```text
+================================
        HAZARDOUS BY DATE
 ================================
+
 2026-01-01: 3
 2026-01-02: 1
 2026-01-04: 1
@@ -258,6 +344,11 @@ While building it, I practiced:
 * Grouping and counting data
 * Iterating through DataFrame rows
 * Formatting numerical output
+* Creating data visualizations
+* Using Matplotlib
+* Creating bar charts
+* Formatting chart labels
+* Improving chart readability
 * Using Git
 * Using GitHub
 * Managing project dependencies
@@ -298,6 +389,8 @@ The first version focused on learning how to work with an external API.
 * API error handling
 * Basic CLI
 
+---
+
 ### Version 2 — Data Analysis & CLI Improvements
 
 The second version expanded the project into a small data-analysis application.
@@ -317,12 +410,32 @@ The second version expanded the project into a small data-analysis application.
 
 ---
 
+### Version 3.0 — Data Visualization
+
+The third version introduced data visualization using Matplotlib.
+
+* Added Matplotlib
+* Added Top 5 largest asteroid bar chart
+* Added formatted chart data labels
+* Added rotated x-axis labels for readability
+* Added visualization option to the CLI
+* Added Matplotlib to project dependencies
+* Improved graphical presentation of analyzed data
+* Visualizes the top 5 largest asteroids
+* Displays asteroid names and estimated diameters
+
+---
+
 ## 🔮 Future Improvements
 
 Possible improvements for future versions:
 
-* 📊 Add Matplotlib visualizations
-* 📈 Create charts showing asteroid data
+* 🖥️ Add a Pandas-based CLI data viewer
+* 📊 Allow users to select different visualization types
+* 📈 Add histogram visualizations
+* 📉 Add scatter plot visualizations
+* 📅 Add line charts for asteroid activity by date
+* 📊 Add an option to display all visualizations
 * 📁 Add CSV export
 * 🔎 Add more detailed asteroid filtering
 * 📊 Add additional statistics
@@ -348,11 +461,13 @@ This project was created as a hands-on Python learning project.
 
 The goal is to gradually develop the project while learning new programming and data-analysis concepts rather than building everything at once.
 
-**V1 → API**
+**V1 → API Integration**
 
-**V2 → Pandas & Analysis**
+**V2 → Pandas & Data Analysis**
 
-**V3 → Visualization**
+**V3 → Data Visualization with Matplotlib**
+
+**V4 → Data Exploration & Advanced CLI**
 
 **Future → More advanced data science**
 

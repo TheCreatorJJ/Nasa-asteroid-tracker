@@ -1,6 +1,7 @@
 import requests
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 from art import ASCII_ART
 from datetime import datetime
 from dotenv import load_dotenv
@@ -89,6 +90,8 @@ def search_asteroids():
     top_5 = sorted_df.head()
 
     average_diameter = df["Diameter"].mean()
+
+    
 
     
     #DISPLAY
@@ -214,6 +217,25 @@ def search_asteroids():
 
     print(f"Closest approach date: {closest_approach_date}")
 
+    return top_5
+
+#CHART SECTION
+def show_top_5_chart(top_5):
+    bars = plt.bar(top_5["Name"], top_5["Diameter"])
+    
+    plt.xticks(rotation=40, ha="right")
+    plt.bar_label(bars, fmt="{:,.2f} m ", padding=3)
+    
+    plt.title("Top 5 Largest Asteroid")
+    plt.xlabel("Asteroid Names")
+    plt.ylabel("Diameters in Meters")
+
+    plt.tight_layout
+    plt.show()
+    plt.close()
+    
+    
+top_5_data = None 
 #CLI MENU
 
 while True:
@@ -221,26 +243,34 @@ while True:
     print()
     print(ASCII_ART)
     print()
-
     print("======================================")
-    print("           NASA NEO TRACKER           ")
+    print("        NASA NEO TRACKER V3.0         ")
     print(" Near-Earth Object (NEO) Data Analzyer")
     print("======================================")
-
     print()
     print("1. Search asteroids")
-    print("2. Exit")
+    print("2. Show top 5 Largest")
+    print("3. Exit")
     print()
-    
+    print("Note: Search Asteroid first to use function 2")
     print("================================")
 
 
     choice = input("Choose and option:")
 
     if choice == "1":
-        search_asteroids()
+        top_5_data = search_asteroids()
 
     elif choice == "2":
+        if top_5_data is None:
+            print()
+            print("No asteroid Loaded")
+            print("Please use option 1 first")
+        else:
+            show_top_5_chart(top_5_data)
+            
+
+    elif choice == "3":
         print("Exiting the program.")
         break
 
