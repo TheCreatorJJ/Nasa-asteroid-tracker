@@ -25,120 +25,154 @@ def get_neo_data(start_date, end_date, api_key):
     return response.json()
 
 def search_asteroids():
-    asteroid_rows = []  #we are going to put the asteroid data in list of rows here
 
-    start_date = input("Enter the start date (YYYY-MM-DD): ")
-    end_date = input("Enter the end date (YYYY-MM-DD): ")
 
-    try:
-        start = datetime.strptime(start_date, "%Y-%m-%d")
-        end = datetime.strptime(end_date, "%Y-%m-%d")
-    except ValueError:
-        print("Invalid date format.")
-        exit()
+    while True:
 
-    #this validate the date range to be between 0 and 7 days, if not it will print an error message and exit the program.
-    date_diff = (end - start).days
-    if date_diff < 0 or date_diff > 7:
-        print("Date range must be between 0 and 7 days.")
-        exit()
+        asteroid_rows = []  #we are going to put the asteroid data in list of rows here
 
-   
-    #Get NASA DATA
-    try:
-        data = get_neo_data(start_date, end_date, api_key)
 
-    except requests.RequestException as e:
-        print(f"Error fetching NEO data: {e}")
-        exit()
+        #this two lines ask for date
+        start_date = input("Enter the start date (YYYY-MM-DD): ")
+        end_date = input("Enter the end date (YYYY-MM-DD): ")
 
- 
-    for date in data["near_earth_objects"]:
-         for asteroid in data["near_earth_objects"][date]:
+        #Validate the formar of the date
+        try:
+            start = datetime.strptime(start_date, "%Y-%m-%d")
+            end = datetime.strptime(end_date, "%Y-%m-%d")
+        except ValueError:
+            print("Invalid date format.")
+            exit()
 
-            asteroid_row = {
-                "Name" : asteroid['name'],
-                "Diameter" : float(asteroid['estimated_diameter']['meters']['estimated_diameter_max']),
-                "Hazardous" : asteroid['is_potentially_hazardous_asteroid'],
-                "Miss Distance" : float(asteroid['close_approach_data'][0]['miss_distance']['kilometers']),
-                "Date" : asteroid['close_approach_data'][0]['close_approach_date']
-            }
-            asteroid_rows.append(asteroid_row)
+        #this validate the date range to be between 0 and 7 days, if not it will print an error message and exit the program.
+        date_diff = (end - start).days
 
-    df = pd.DataFrame(asteroid_rows)
-
-    #Analysis
-    hazardous_df = df[df["Hazardous"] == True]
-    hazardous_by_date = hazardous_df.groupby("Date").size()
-
-    largest_index = df["Diameter"].idxmax()
-    largest_diameter = df["Diameter"].max()
-
-    smallest_index = df["Diameter"].idxmin()
-    smallest_diameter = df["Diameter"].min()
-
-    closest_index = df["Miss Distance"].idxmin()
-    closest_distance = df["Miss Distance"].min()
-
-    total_asteroids = df.shape[0]
-
-    hazardous_count = hazardous_df.shape[0]
-    hazardous_percentage = (hazardous_count / total_asteroids) * 100
-
-    sorted_df = df.sort_values("Diameter", ascending=False)
-    
-    top_5 = sorted_df.head()
-
-    average_diameter = df["Diameter"].mean()
+        if date_diff < 0 or date_diff > 7:
+            print("Date range must be between 0 and 7 days.")
+            exit()
 
     
+        #Get NASA DATA
+        try:
+            data = get_neo_data(start_date, end_date, api_key)
+
+        except requests.RequestException as e:
+            print(f"Error fetching NEO data: {e}")
+            exit()
+
+        #Build Asteroid Rows
+        for date in data["near_earth_objects"]:
+            for asteroid in data["near_earth_objects"][date]:
+
+                asteroid_row = {
+                    "Name" : asteroid['name'],
+                    "Diameter" : float(asteroid['estimated_diameter']['meters']['estimated_diameter_max']),
+                    "Hazardous" : asteroid['is_potentially_hazardous_asteroid'],
+                    "Miss Distance" : float(asteroid['close_approach_data'][0]['miss_distance']['kilometers']),
+                    "Date" : asteroid['close_approach_data'][0]['close_approach_date']
+                }
+                asteroid_rows.append(asteroid_row)
+
+        #Show Selected Date Range
+        print()
+        print("================================")
+        print("      SELECTED DATE RANGE       ")
+        print("================================")
+        print(f"From: {start_date}")
+        print(f"To: {end_date}")
+        print("================================")
+
+                     
+        #this creates a DATAFRAME
+        df = pd.DataFrame(asteroid_rows)
+
+        #Analysis
+        hazardous_df = df[df["Hazardous"] == True]
+        hazardous_by_date = hazardous_df.groupby("Date").size()
+
+        largest_index = df["Diameter"].idxmax()
+        largest_diameter = df["Diameter"].max()
+
+        smallest_index = df["Diameter"].idxmin()
+        smallest_diameter = df["Diameter"].min()
+
+        closest_index = df["Miss Distance"].idxmin()
+        closest_distance = df["Miss Distance"].min()
+
+        total_asteroids = df.shape[0]
+
+        hazardous_count = hazardous_df.shape[0]
+        hazardous_percentage = (hazardous_count / total_asteroids) * 100
+
+        sorted_df = df.sort_values("Diameter", ascending=False)
+        
+        top_5 = sorted_df.head()
+
+        average_diameter = df["Diameter"].mean()
 
     
-    #DISPLAY
-    print()
-    print("================================")
-    print("        ASTEROID SUMMARY        ")
-    print("================================")
 
-    print(f"Total Asteroids: {total_asteroids}")
-    print(f"Potentially Hazardous: {hazardous_count}")
-    print(f"Hazardous Percentage: {hazardous_percentage:,.2f}%")
+    
+        #DISPLAY
+        print()
+        print("================================")
+        print("        ASTEROID SUMMARY        ")
+        print("================================")
 
-    print()
+        print(f"Total Asteroids: {total_asteroids}")
+        print(f"Potentially Hazardous: {hazardous_count}")
+        print(f"Hazardous Percentage: {hazardous_percentage:,.2f}%")
 
-    print(f"Largest Asteroid: {df.loc[largest_index, 'Name']}")
-    print(f"Diameter: {largest_diameter:,.2f} meters")
+        print()
 
-    print()
+        print(f"Largest Asteroid: {df.loc[largest_index, 'Name']}")
+        print(f"Diameter: {largest_diameter:,.2f} meters")
 
-    print(f"Smallest Asteroid: {df.loc[smallest_index, 'Name' ]}")
-    print(f"Diameter: {smallest_diameter:,.2f} meters")
+        print()
 
-    print()
+        print(f"Smallest Asteroid: {df.loc[smallest_index, 'Name' ]}")
+        print(f"Diameter: {smallest_diameter:,.2f} meters")
 
-    print(f"Closest Asteroid: {df.loc[closest_index, 'Name']}")
-    print(f"Miss Distance: {closest_distance:,.2f} km")
-    print(f"Approach Date: {df.loc[closest_index, 'Date']}")
+        print()
 
-    print()
+        print(f"Closest Asteroid: {df.loc[closest_index, 'Name']}")
+        print(f"Miss Distance: {closest_distance:,.2f} km")
+        print(f"Approach Date: {df.loc[closest_index, 'Date']}")
 
-    print(f"Average Diameter: {average_diameter:,.2f} meters")
+        print()
 
-    print("================================")
+        print(f"Average Diameter: {average_diameter:,.2f} meters")
 
-    print("================================")
-    print("    TOP 5 LARGEST ASTEROID      ")
-    print("================================")
+        print("================================")
 
-    for number, (index, asteroid) in enumerate(top_5.iterrows(), start=1):
-        print(f"{number}. {asteroid['Name']} - {asteroid['Diameter']:,.2f} meters")
+        print("================================")
+        print("    TOP 5 LARGEST ASTEROID      ")
+        print("================================")
 
-    print("================================")
-    print("       HAZARDOUS BY DATE        ")
-    print("================================")
+        for number, (index, asteroid) in enumerate(top_5.iterrows(), start=1):
+            print(f"{number}. {asteroid['Name']} - {asteroid['Diameter']:,.2f} meters")
 
-    for date, count in hazardous_by_date.items():
-        print(f"{date}: {count}")
+        print("================================")
+        print("       HAZARDOUS BY DATE        ")
+        print("================================")
+
+        for date, count in hazardous_by_date.items():
+            print(f"{date}: {count}")
+
+        #ASK if the user wants another search
+        another_search = input("\nSearch another date range (y/n): ").lower()
+
+        if another_search == "y":
+            continue
+
+        elif another_search == "n":
+            return top_5
+
+        else:
+            print("Invalid Choice. Returning to main menu.")
+            return top_5
+
+
 
 
     #Statistics
@@ -230,7 +264,7 @@ def show_top_5_chart(top_5):
     plt.xlabel("Asteroid Names")
     plt.ylabel("Diameters in Meters")
 
-    plt.tight_layout
+    plt.tight_layout()
     plt.show()
     plt.close()
     
@@ -245,7 +279,7 @@ while True:
     print()
     print("======================================")
     print("        NASA NEO TRACKER V3.0         ")
-    print(" Near-Earth Object (NEO) Data Analzyer")
+    print(" Near-Earth Object (NEO) Data Analyzer")
     print("======================================")
     print()
     print("1. Search asteroids")
@@ -256,7 +290,7 @@ while True:
     print("================================")
 
 
-    choice = input("Choose and option:")
+    choice = input("Choose an option:")
 
     if choice == "1":
         top_5_data = search_asteroids()
@@ -275,4 +309,4 @@ while True:
         break
 
     else:
-        print("Invalid choice. Please try again.")
+        print("Invalid choice. Please try again.")  
