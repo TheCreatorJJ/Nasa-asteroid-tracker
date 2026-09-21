@@ -133,8 +133,6 @@ Nasa-asteroid-tracker/
 └── .env
 ```
 
-> ⚠️ `.env` contains your private API key and should never be uploaded to GitHub.
-
 ---
 
 ## 🚀 Usage
