@@ -473,6 +473,6 @@ The goal is to gradually develop the project while learning new programming and 
 
 ## 👨‍💻 Author
 
-Created by **TheCreatorJJ** as a Python learning project.
+Created by **TheCreatorJJ** as a Python and Data Science learning project.
 
 ⭐ If you find the project interesting, feel free to explore the code and follow its development.
