@@ -385,7 +385,7 @@ The first version focused on learning how to work with an external API.
 * Close-approach date
 * Date validation
 * API error handling
-* Basic CLI
+* Basic Command Line Interface
 
 ---
 
