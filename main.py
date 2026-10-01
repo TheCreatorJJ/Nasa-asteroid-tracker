@@ -42,23 +42,21 @@ def search_asteroids():
             end = datetime.strptime(end_date, "%Y-%m-%d")
         except ValueError:
             print("Invalid date format.")
-            exit()
+            continue
 
         #this validate the date range to be between 0 and 7 days, if not it will print an error message and exit the program.
         date_diff = (end - start).days
-
         if date_diff < 0 or date_diff > 7:
             print("Date range must be between 0 and 7 days.")
-            exit()
+            continue
 
-    
         #Get NASA DATA
         try:
             data = get_neo_data(start_date, end_date, api_key)
 
         except requests.RequestException as e:
             print(f"Error fetching NEO data: {e}")
-            exit()
+            continue
 
         #Build Asteroid Rows
         for date in data["near_earth_objects"]:
@@ -72,6 +70,11 @@ def search_asteroids():
                     "Date" : asteroid['close_approach_data'][0]['close_approach_date']
                 }
                 asteroid_rows.append(asteroid_row)
+
+        df = pd.DataFrame(asteroid_rows)
+        if df.empty:
+            print("No asteroids found in the specified date range.")
+            continue
 
         #Show Selected Date Range
         print()
@@ -135,7 +138,7 @@ def search_asteroids():
 
         print()
 
-        print(f"Closest Asteroid: {df.loc[closest_index, 'Name']}")
+        print(f"Closest Asteroidpy: {df.loc[closest_index, 'Name']}")
         print(f"Miss Distance: {closest_distance:,.2f} km")
         print(f"Approach Date: {df.loc[closest_index, 'Date']}")
 
@@ -168,91 +171,7 @@ def search_asteroids():
         elif another_search == "n":
             return top_5
 
-        else:
-            print("Invalid Choice. Returning to main menu.")
-            return top_5
-
-
-
-
-    #Statistics
-    total_asteroids = 0
-    hazardous_asteroids = 0
-
-    largest_diameter = 0
-    largest_asteroid_name = ""
-
-    #float("inf") means infinity, which is a very large number that any real number will be smaller than.
-    closest_distance = float('inf') 
-    closest_asteroid_name = ""
-    closest_approach_date = ""
-
-
-    #Loop Through Dates
-    for date in data["near_earth_objects"]:
-        
-        print("================================")
-        print(f"Date: {date}")
-
-        for asteroid in data["near_earth_objects"][date]:
-            
-            print("--------------------")
-
-            print(f"Name: {asteroid['name']}")
-
-            print(f"Is Potentially Hazardous: {asteroid['is_potentially_hazardous_asteroid']}") 
-
-            print(f"Estimated Diameter (MIN): {float(asteroid['estimated_diameter']['meters']['estimated_diameter_min']):,.2f}")
-
-            print(f"Estimated Diameter (MAX): {float(asteroid['estimated_diameter']['meters']['estimated_diameter_max']):,.2f}")
-
-            print(f"Miss Distance (Kilometers): {float(asteroid['close_approach_data'][0]['miss_distance']['kilometers']):,.2f}")
-
-
-            #Find the Largest Asteroid and Closest Asteroid
-            current_diameter = asteroid['estimated_diameter']['meters']['estimated_diameter_max']
-
-            if current_diameter > largest_diameter:
-                    largest_diameter = current_diameter
-                    largest_asteroid_name = asteroid['name']
-
-            #Count Asteroids
-            total_asteroids += 1
-
-            #Find the Closest Asteroid
-            current_distance = float(
-                asteroid['close_approach_data'][0]['miss_distance']['kilometers']
-                )
-            
-            if current_distance < closest_distance:
-                    closest_distance = current_distance
-                    closest_asteroid_name = asteroid['name']
-                    closest_approach_date = asteroid['close_approach_data'][0]['close_approach_date']
-
-            #Count Hazardous Asteroids
-            if asteroid['is_potentially_hazardous_asteroid']:
-                hazardous_asteroids += 1
-
-
-    #Display Statistics
-    print("================================")
-
-    print(f"Total asteroids: {total_asteroids}")
-
-    print(f"Total potentially hazardous asteroids: {hazardous_asteroids}")
-
-    print(f"Largest asteroid diameter: {float(largest_diameter):,.2f}")
-
-    print(f"Largest asteroid name: {largest_asteroid_name}")
-
-    print(f"Closest asteroid distance: {float(closest_distance):,.2f}")
-
-    print(f"Closest asteroid name: {closest_asteroid_name}")
-
-    print(f"Closest approach date: {closest_approach_date}")
-
-    return top_5
-
+       
 #CHART SECTION
 def show_top_5_chart(top_5):
     bars = plt.bar(top_5["Name"], top_5["Diameter"])
