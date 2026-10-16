@@ -299,7 +299,7 @@ Average Diameter: 285.73 meters
 ================================
 ```
 
-### Hazardous Asteroids by Date
+### Hazardous Asteroids by Dates 
 
 ```text
 ================================
